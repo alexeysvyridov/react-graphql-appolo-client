@@ -21,6 +21,7 @@ export const Navigation = () => {
           return (
             <NavigationItem
               to={nav.to}
+              key={nav.to}
               style={{
                 color: location.pathname === nav.to ? 'red': '#fff'
               }}
@@ -29,6 +30,17 @@ export const Navigation = () => {
             </NavigationItem>
           )
         })}
+        <NavigationItem
+          style={{
+            position: 'absolute',
+            top: '20px',
+            right: '10px'
+          }}
+          to="/login" 
+          key="login"
+        >
+          sign out
+        </NavigationItem>
       </ul>
     </NavigationStyled>
   )
