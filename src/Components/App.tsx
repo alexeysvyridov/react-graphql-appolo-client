@@ -34,7 +34,6 @@ function App() {
   const {loading: loadingCountry, error: errorSelectedCountry, data: selecteUser, refetch} = useQuery(GET_USER);
 
   const  handleSelectUser = useCallback(async (id: number) => {
-    console.log(id);
     refetch({
       id: id
     })  
@@ -42,7 +41,6 @@ function App() {
 
   const loadred  = 'data is loading...';
 
-  console.log(selecteUser)
   const renderList = () => {
     if (loading) return loadred;
     if (filterOptions.length !== 0 && selecteUser?.getUser?.id) {
@@ -68,7 +66,7 @@ function App() {
       <SearchPanel 
         onSelectUser={handleSelectUser} 
         filterOptions={filterOptions}
-        selectedUserId={selecteUser?.getAllUser?.id ?? null}
+        selectedUserId={selecteUser?.getAllUser?.id ?? undefined}
       />
       {loading || loadingCountry ? (  
         loadred 

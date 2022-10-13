@@ -20,7 +20,7 @@ export const SearchPanel = ({
             <>  
                 <option value="none">-</option>
                 {filterOptions.map(({value, name}) => {
-                    return <option value={value}>{name}</option>
+                    return <option value={value} key={name + value}>{name}</option>
                 })}
             </>
         )
