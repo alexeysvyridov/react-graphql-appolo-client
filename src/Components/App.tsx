@@ -19,6 +19,7 @@ function UserItem({ user }: UserIntemProps) {
 }
 function App() {
   const [filterOptions, setFilterOptions] = useState<FilterOptions[]>([]);
+  const [selectedId, setSelectedId] = useState<number | undefined>();
   const handleSetOptions = (users: User[]) => {
     const options = users?.map(({ id, email }) => ({
       value: id,
@@ -31,16 +32,18 @@ function App() {
   const { loading, error, data, client } = useQuery(GET_USERS, {
     onCompleted: (result) => handleSetOptions(result?.getAllUsers || []),
   });
-  const { loading: loadingCountry, error: errorSelectedCountry, data: selecteUser, refetch } = useQuery(GET_USER);
+  const { loading: loadingCountry, error: errorSelectedCountry, data: selecteUser } = useQuery(GET_USER, {
+    variables: {
+      id: selectedId
+    },
+    skip: !selectedId,
+  });
 
   const handleSelectUser = useCallback(async (id: number) => {
-    refetch({
-      id: id
-    })
-  }, [client]);
+    setSelectedId(id)
+  }, []);
 
   const loadred = 'data is loading...';
-
   const renderList = () => {
     if (loading) return loadred;
     if (filterOptions.length !== 0 && selecteUser?.getUser?.id) {
@@ -58,7 +61,7 @@ function App() {
     }
     return null
   }
-
+  console.log(selectedId)
   return (
     <div className="App">
       <h1>app</h1>
