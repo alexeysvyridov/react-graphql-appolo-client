@@ -10,8 +10,8 @@ const root = ReactDOM.createRoot(
 );
 
 const client = new ApolloClient({
-  uri: 'https://countries.trevorblades.com/',
-  cache: new InMemoryCache(),
+  uri: 'http://localhost:6969/graphql',
+  cache: new InMemoryCache()
 });
 
 root.render(

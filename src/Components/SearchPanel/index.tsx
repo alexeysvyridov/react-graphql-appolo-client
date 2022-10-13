@@ -1,18 +1,18 @@
 import React, { ChangeEvent, useState } from 'react'
 import './style.css'
 type SearchPanelProps = {
-    onSelectCountry:(values: string) => void,
+    onSelectUser:(values: number) => void,
     filterOptions: FilterOptions[],
-    selecteCountry: string,  
+    selectedUserId: number,  
 };
 
 export const SearchPanel = ({
-    onSelectCountry,
+    onSelectUser,
     filterOptions,
-    selecteCountry,
+    selectedUserId,
 }:SearchPanelProps) => {
     const handleSetOption = (option:ChangeEvent<HTMLSelectElement>) => {
-        onSelectCountry(option.target.value)
+        onSelectUser(+option.target.value)
     }
     
     const renderOptions = () => {
@@ -29,10 +29,10 @@ export const SearchPanel = ({
   return (
     <div className="search-box">
         <h6>SearchPanel</h6>
-        <select onChange={handleSetOption} value={selecteCountry}>
+        <select onChange={handleSetOption} value={selectedUserId}>
             {renderOptions()}
         </select>
-        <input type="button" onClick={() => onSelectCountry(selecteCountry)} value="Send" />
+        <input type="button" onClick={() => onSelectUser(selectedUserId)} value="Send" />
     </div>
   )
 }

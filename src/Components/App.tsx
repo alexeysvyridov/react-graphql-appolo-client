@@ -1,71 +1,59 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
-import {useQuery, gql} from '@apollo/client'
+import React, { useCallback, useState } from 'react';
+import {useQuery} from '@apollo/client'
 import './App.css';
 import { SearchPanel } from './SearchPanel';
+import { GET_COUNTRY, GET_USER, GET_USERS } from '../graphql';
 
-const GET_COUNTRIES = gql`
-query GetContinentCountires($filter: CountryFilterInput) {
-  countries(filter: $filter) {
-    name
-    code
-    phone
-  }
-}`;
-const GET_COUNTRY = gql`
-query GetContinentCountires($code: ID!) {
-  country(code: $code) {
-    name
-    code
-    phone
-  }
-}`;
 
-type CountryIntemProps = {
-  country: Country
+type UserIntemProps = {
+  user: User
 }
-function CountryIntem({ country }: CountryIntemProps) {
+function UserItem({ user }: UserIntemProps) {
   return (
-    <li key={country.code}>
-      <div>country: {country.name}</div>
-    <div>code: {country.code}</div>
+    <li key={user.id}>
+      <div>id: {user.id}</div>
+      <div>email: {user.email}</div>
+      <div>password: {user.password}</div>
   </li>
   )
 }
 function App() {
   const [filterOptions, setFilterOptions] = useState<FilterOptions[]>([]);
-  const handleSetOptions = (dataCountries:Countries) => {
-    const options = dataCountries?.countries?.map(({ name, code }) => ({
-      value: code,
-      name,
+  const handleSetOptions = (users: User[]) => {
+    const options = users?.map(({ id, email }) => ({
+      value: id,
+      name: email,
     }))
 
     setFilterOptions(options)
   }
 
-  const {loading, error, data, client} = useQuery(GET_COUNTRIES, {
-    onCompleted: handleSetOptions
+  const {loading, error, data, client} = useQuery(GET_USERS, {
+    onCompleted: (result) => handleSetOptions(result?.getAllUsers || []),
   });
-  const {loading: loadingCountry, error: errorSelectedCountry, data: selecteCountry, refetch} = useQuery(GET_COUNTRY);
+  const {loading: loadingCountry, error: errorSelectedCountry, data: selecteUser, refetch} = useQuery(GET_USER);
 
-  const  handleSelectCountry = useCallback(async (valueCode: string) => {
+  const  handleSelectUser = useCallback(async (id: number) => {
+    console.log(id);
     refetch({
-      code: valueCode
+      id: id
     })  
-  }, [client])
-  const loadred  = 'data is loading...';
-  console.log(selecteCountry)
+  }, [client]);
 
+  const loadred  = 'data is loading...';
+
+  console.log(selecteUser)
   const renderList = () => {
     if (loading) return loadred;
-    if (filterOptions.length !== 0 && selecteCountry?.country) {
-      return <CountryIntem country={selecteCountry.country} />
+    if (filterOptions.length !== 0 && selecteUser?.getUser?.id) {
+      return <UserItem user={selecteUser?.getUser} />
     }
 
-    if(data && data?.countries) {
+    if(data && data.getAllUsers) {
       return (
-        data.countries.map((country:any) => {
+        data?.getAllUsers?.map((user:any) => {
           return (
-            <CountryIntem country={country}/>
+            <UserItem user={user}/>
           )
         }
       ))
@@ -78,9 +66,9 @@ function App() {
       <h1>app</h1>
 
       <SearchPanel 
-        onSelectCountry={handleSelectCountry} 
+        onSelectUser={handleSelectUser} 
         filterOptions={filterOptions}
-        selecteCountry={selecteCountry?.country?.code ?? 'none'}
+        selectedUserId={selecteUser?.getAllUser?.id ?? null}
       />
       {loading || loadingCountry ? (  
         loadred 
