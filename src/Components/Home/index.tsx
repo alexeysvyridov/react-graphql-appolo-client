@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useQuery } from '@apollo/client'
 import { SearchPanel } from '../SearchPanel';
 import { GET_USER, GET_USERS } from '../../graphql';

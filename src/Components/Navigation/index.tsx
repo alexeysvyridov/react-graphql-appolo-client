@@ -21,7 +21,6 @@ export const Navigation = () => {
           return (
             <NavigationItem
               to={nav.to}
-              activeClass="active"
               style={{
                 color: location.pathname === nav.to ? 'red': '#fff'
               }}
