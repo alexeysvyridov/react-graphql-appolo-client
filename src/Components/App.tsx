@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import {useQuery} from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import './App.css';
 import { SearchPanel } from './SearchPanel';
 import { GET_COUNTRY, GET_USER, GET_USERS } from '../graphql';
@@ -14,7 +14,7 @@ function UserItem({ user }: UserIntemProps) {
       <div>id: {user.id}</div>
       <div>email: {user.email}</div>
       <div>password: {user.password}</div>
-  </li>
+    </li>
   )
 }
 function App() {
@@ -28,18 +28,18 @@ function App() {
     setFilterOptions(options)
   }
 
-  const {loading, error, data, client} = useQuery(GET_USERS, {
+  const { loading, error, data, client } = useQuery(GET_USERS, {
     onCompleted: (result) => handleSetOptions(result?.getAllUsers || []),
   });
-  const {loading: loadingCountry, error: errorSelectedCountry, data: selecteUser, refetch} = useQuery(GET_USER);
+  const { loading: loadingCountry, error: errorSelectedCountry, data: selecteUser, refetch } = useQuery(GET_USER);
 
-  const  handleSelectUser = useCallback(async (id: number) => {
+  const handleSelectUser = useCallback(async (id: number) => {
     refetch({
       id: id
-    })  
+    })
   }, [client]);
 
-  const loadred  = 'data is loading...';
+  const loadred = 'data is loading...';
 
   const renderList = () => {
     if (loading) return loadred;
@@ -47,14 +47,14 @@ function App() {
       return <UserItem user={selecteUser?.getUser} />
     }
 
-    if(data && data.getAllUsers) {
+    if (data && data.getAllUsers) {
       return (
-        data?.getAllUsers?.map((user:any) => {
+        data?.getAllUsers?.map((user: any) => {
           return (
-            <UserItem user={user}/>
+            <UserItem user={user} />
           )
         }
-      ))
+        ))
     }
     return null
   }
@@ -63,17 +63,17 @@ function App() {
     <div className="App">
       <h1>app</h1>
 
-      <SearchPanel 
-        onSelectUser={handleSelectUser} 
+      <SearchPanel
+        onSelectUser={handleSelectUser}
         filterOptions={filterOptions}
         selectedUserId={selecteUser?.getAllUser?.id ?? undefined}
       />
-      {loading || loadingCountry ? (  
-        loadred 
-      ): (
-      <ul>
-        {renderList()}
-      </ul>
+      {loading || loadingCountry ? (
+        loadred
+      ) : (
+        <ul>
+          {renderList()}
+        </ul>
       )}
     </div>
   );
