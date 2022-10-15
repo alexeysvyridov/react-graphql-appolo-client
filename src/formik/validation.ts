@@ -10,8 +10,14 @@ const CreateUserSchema = Yup.object().shape({
   .required('First name is Required!'),
   email: Yup.string().email('Invalid email').required('Email is equired'),
   password: Yup.string().min(8, 'To short password').required('Password is equired'),
+});
+
+const LoginUserSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Email is equired'),
+  password: Yup.string().min(8, 'To short password').required('Password is equired'),
 })
 
 export {
   CreateUserSchema,
+  LoginUserSchema,
 }
