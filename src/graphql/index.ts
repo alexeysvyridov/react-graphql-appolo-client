@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 export const GET_USERS = gql`
   query GetAllUsers {
     getAllUsers {
-        id,
+        _id,
         email,
         password
     }
@@ -11,9 +11,9 @@ export const GET_USERS = gql`
 `;
 
 export const GET_USER = gql`
-  query GetUser($id:Int) {
-    getUser (id: $id) {
-      id
+  query GetUser($_id:String) {
+    getUser (_id: $_id) {
+      _id
       email
       password
     }
@@ -25,7 +25,7 @@ export const CREATE_USER = gql`
     $firstName: String!
     $lastName: String!
     $email: String!
-    $password: String
+    $password: String!
     ) {
     createUser (
         firstName: $firstName 

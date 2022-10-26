@@ -9,7 +9,7 @@ import CircularIndeterminate from '../../Components/shared/Spinner';
 
 export const Login = () => {
   // to do change
-  const [createUser, { loading, error } ]= useMutation(CREATE_USER, {
+  const [createUser, { loading, error } ]= useMutation<CreateUser>(CREATE_USER, {
     onCompleted: () => {
       console.log('Successfully completed!')
     }
@@ -17,11 +17,17 @@ export const Login = () => {
   const formik = useFormik({
     validationSchema: LoginUserSchema,
     initialValues: {
+      firstName: '',
+      lastName: '',
       email: '',
-      password: ''
+      password: '',
     }, onSubmit: (data) => {
       console.log('data', data);
-
+      createUser({
+        variables: {
+          ...data
+        }
+      });
     }
   });
   const {

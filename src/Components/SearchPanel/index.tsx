@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent } from 'react'
 import './style.css'
 type SearchPanelProps = {
-    onSelectUser: (values: number) => void,
+    onSelectUser: (values: string) => void,
     filterOptions: FilterOptions[],
-    selectedUserId: number,
+    selectedUserId: string,
 };
 
 export const SearchPanel = ({
@@ -12,7 +12,7 @@ export const SearchPanel = ({
     selectedUserId,
 }: SearchPanelProps) => {
     const handleSetOption = (option: ChangeEvent<HTMLSelectElement>) => {
-        onSelectUser(+option.target.value)
+        onSelectUser(option.target.value)
     }
 
     const renderOptions = () => {

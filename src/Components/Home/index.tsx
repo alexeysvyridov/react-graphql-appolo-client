@@ -10,8 +10,8 @@ type UserIntemProps = {
 }
 function UserItem({ user }: UserIntemProps) {
   return (
-    <li key={user.id}>
-      <div>id: {user.id}</div>
+    <li key={user._id}>
+      <div>id: {user._id}</div>
       <div>email: {user.email}</div>
       <div>password: {user.password}</div>
     </li>
@@ -19,10 +19,10 @@ function UserItem({ user }: UserIntemProps) {
 }
 function Home() {
   const [filterOptions, setFilterOptions] = useState<FilterOptions[]>([]);
-  const [selectedId, setSelectedId] = useState<number | undefined>();
+  const [selectedId, setSelectedId] = useState<string | undefined>();
   const handleSetOptions = (users: User[]) => {
-    const options = users?.map(({ id, email }) => ({
-      value: id,
+    const options = users?.map(({ _id, email }) => ({
+      value: _id,
       name: email,
     }))
 
@@ -34,19 +34,19 @@ function Home() {
   });
   const { loading: loadingCountry, error: errorSelectedCountry, data: selecteUser } = useQuery(GET_USER, {
     variables: {
-      id: selectedId
+      _id: selectedId
     },
     skip: !selectedId,
   });
 
-  const handleSelectUser = useCallback(async (id: number) => {
+  const handleSelectUser = useCallback(async (id: string) => {
     setSelectedId(id)
   }, []);
 
   const loadred = 'data is loading...';
   const renderList = () => {
     if (loading) return loadred;
-    if (filterOptions.length !== 0 && selecteUser?.getUser?.id) {
+    if (filterOptions.length !== 0 && selecteUser?.getUser?._id) {
       return <UserItem user={selecteUser?.getUser} />
     }
 
@@ -61,12 +61,13 @@ function Home() {
     }
     return null
   }
+
   return (
       <Container>
         <SearchPanel
             onSelectUser={handleSelectUser}
             filterOptions={filterOptions}
-            selectedUserId={selecteUser?.getAllUser?.id ?? undefined}
+            selectedUserId={selecteUser?.getAllUser?._id ?? undefined}
         />
         {loading || loadingCountry ? (
             loadred

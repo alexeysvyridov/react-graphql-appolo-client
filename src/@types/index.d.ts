@@ -13,7 +13,13 @@ type Countries = {
 }
 
 type User = {
-  id: number;
+  _id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+type CreateUser = {
   firstName: string;
   lastName: string;
   email: string;
