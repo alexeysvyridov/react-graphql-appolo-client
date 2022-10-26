@@ -3,9 +3,9 @@ import { gql } from "@apollo/client";
 export const GET_USERS = gql`
   query GetAllUsers {
     getAllUsers {
-        _id,
-        email,
-        password
+      _id,
+      email,
+      password
     }
   }
 `;
@@ -16,6 +16,13 @@ export const GET_USER = gql`
       _id
       email
       password
+    }
+  }
+`;
+export const DELETE_USER = gql`
+  mutation DeleteUser($_id: String!) {
+    deleteUser (_id: $_id) {
+      _id
     }
   }
 `;
