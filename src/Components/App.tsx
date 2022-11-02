@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css'
 import { NewUser } from "./NewUser";
 import { Login } from "../pages/Login";
+import { Register } from "../pages/Register";
 
  const App = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ import { Login } from "../pages/Login";
             <Route path="new-user" element={<NewUser />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </div>
   );

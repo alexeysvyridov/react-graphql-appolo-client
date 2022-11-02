@@ -5,7 +5,6 @@ export const GET_USERS = gql`
     getAllUsers {
       _id,
       email,
-      password
     }
   }
 `;
@@ -15,7 +14,6 @@ export const GET_USER = gql`
     getUser (_id: $_id) {
       _id
       email
-      password
     }
   }
 `;
@@ -44,6 +42,45 @@ export const CREATE_USER = gql`
       lastName
       email
       password
+    }
+  }
+`;
+export const SIGNUP = gql`
+  mutation SignUp(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+    ) {
+    signup (
+        firstName: $firstName 
+        lastName: $lastName 
+        email: $email 
+        password: $password
+      ) {
+      firstName
+      lastName
+      email
+      password
+    }
+  }
+`;
+
+export const AUTH = gql`
+  mutation Login (
+    $email: String!
+    $password: String!
+  ) {
+    login(
+      email: $email
+      password: $password
+    ) {
+      token
+      user {
+        _id
+        firstName
+        lastName
+      }
     }
   }
 `;

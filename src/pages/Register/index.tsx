@@ -2,27 +2,28 @@ import React from 'react'
 import { ErrorMessage } from '../../Components/shared/Container'
 import { Button, FormContainer, InputBox, InputLabel, InputText, FormBox, Title } from '../../Components/shared/styled'
 import {useFormik} from "formik";
-import { LoginUserSchema } from '../../formik/validation';
+import { LoginUserSchema, RegisterUserSchema } from '../../formik/validation';
 import { useMutation } from '@apollo/client';
-import { AUTH } from '../../graphql';
+import { CREATE_USER, SIGNUP } from '../../graphql';
 import CircularIndeterminate from '../../Components/shared/Spinner';
 
-export const Login = () => {
+export const Register = () => {
   // to do change
-  const [login, { loading, error } ]= useMutation<AuthLogin>(AUTH, {
+  const [registerUser, { loading, error } ]= useMutation<CreateUser>(SIGNUP, {
     onCompleted: () => {
-      console.log('Successfully completed!')
+      console.log('Successfully registred completed!')
     }
   });
-  
   const formik = useFormik({
-    validationSchema: LoginUserSchema,
+    validationSchema: RegisterUserSchema,
     initialValues: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
     }, onSubmit: (data) => {
       console.log('data', data);
-      login({
+      registerUser({
         variables: {
           ...data
         }
@@ -41,7 +42,27 @@ export const Login = () => {
   return (
     <FormBox>
       <FormContainer onSubmit={handleSubmit}>
-        <Title>Login</Title>
+        <Title>Register</Title>
+        <InputBox direction="column">
+          <InputLabel>First name</InputLabel>
+          <InputText 
+              id="firstName"
+              placeholder="firstName"
+              value={values.firstName}
+              onChange={handleChange}
+          />
+          {errors.firstName && touched.firstName && <ErrorMessage>{errors.firstName}</ErrorMessage>}
+        </InputBox>
+        <InputBox direction="column">
+          <InputLabel>Last name</InputLabel>
+          <InputText 
+              id="lastName"
+              placeholder="lastName"
+              value={values.lastName}
+              onChange={handleChange}
+          />
+          {errors.lastName && touched.lastName && <ErrorMessage>{errors.lastName}</ErrorMessage>}
+        </InputBox>
         <InputBox direction="column">
           <InputLabel>Email</InputLabel>
           <InputText 

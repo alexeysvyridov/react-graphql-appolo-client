@@ -14,7 +14,6 @@ function UserItem({ user, onDeleteUser }: UserIntemProps) {
     <li style={{ padding: '10px' }} key={user._id}>
       <div>id: {user._id}</div>
       <div>email: {user.email}</div>
-      <div>password: {user.password}</div>
       <button type="button" onClick={onDeleteUser}>Remove user</button>
     </li>
   )
@@ -55,7 +54,7 @@ function Home() {
         _id: id
       }
     })
-  }, []);
+  }, [deleteUser]);
 
   const loadred = 'data is loading...';
   const renderList = () => {
@@ -82,7 +81,7 @@ function Home() {
     }
     return null
   }
-
+  console.log(selecteUser);
   return (
       <Container>
         <SearchPanel

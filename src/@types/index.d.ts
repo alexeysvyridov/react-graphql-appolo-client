@@ -25,3 +25,8 @@ type CreateUser = {
   email: string;
   password: string;
 }
+
+type AuthLogin = {
+  email: string;
+  password: string;
+}
