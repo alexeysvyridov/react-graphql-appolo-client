@@ -6,15 +6,19 @@ import { LoginUserSchema } from '../../formik/validation';
 import { useMutation } from '@apollo/client';
 import { AUTH } from '../../graphql';
 import CircularIndeterminate from '../../Components/shared/Spinner';
-
+import { setValueToLocalStorage } from '../../helpers';
+import { useNavigate } from 'react-router-dom'
 export const Login = () => {
-  // to do change
-  const [login, { loading, error } ]= useMutation<AuthLogin>(AUTH, {
-    onCompleted: () => {
+  const navigate = useNavigate()
+  const [login, { loading, error } ]= useMutation<LoginResponse>(AUTH, {
+    onCompleted: (response) => {
+      setValueToLocalStorage('user', response.login.user)
+      setValueToLocalStorage('token', response.login.token)
+      navigate("/")
       console.log('Successfully completed!')
     }
   });
-  
+
   const formik = useFormik({
     validationSchema: LoginUserSchema,
     initialValues: {

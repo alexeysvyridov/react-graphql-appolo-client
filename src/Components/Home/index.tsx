@@ -25,7 +25,7 @@ function Home() {
     const options = users?.map(({ _id, email }) => ({
       value: _id,
       name: email,
-    }))
+    }));
 
     setFilterOptions(options)
   }

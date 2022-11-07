@@ -1,5 +1,5 @@
 type FilterOptions = {
-    value: number;
+    value: string;
     name: string;
 }
 
@@ -13,7 +13,7 @@ type Countries = {
 }
 
 type User = {
-  _id: number;
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -29,4 +29,10 @@ type CreateUser = {
 type AuthLogin = {
   email: string;
   password: string;
+}
+type LoginResponse = {
+  login: {
+    user: User,
+    token: string | null
+  }
 }
