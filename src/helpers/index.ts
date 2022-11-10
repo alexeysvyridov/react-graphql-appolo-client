@@ -6,11 +6,11 @@ export const setValueToLocalStorage = (key: string, value: unknown) => {
   }
 };
 
-export const getValueFromLocalStorage = (item: string): { [key: string]: unknown } | null | undefined => {
+export function getValueFromLocalStorage<T>(item: string): T | null | undefined {
   try {
     const hasItem = localStorage.getItem(item);
     if (hasItem) {
-      const value = JSON.parse(hasItem)
+      const value = JSON.parse(hasItem);
       return value;
     }
 

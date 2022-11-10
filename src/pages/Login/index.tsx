@@ -7,11 +7,14 @@ import { useMutation } from '@apollo/client';
 import { AUTH } from '../../graphql';
 import CircularIndeterminate from '../../Components/shared/Spinner';
 import { setValueToLocalStorage } from '../../helpers';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import {useAuthContext} from '../../context'
 export const Login = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const {onSetUser} = useAuthContext();
   const [login, { loading, error } ]= useMutation<LoginResponse>(AUTH, {
     onCompleted: (response) => {
+      onSetUser(response.login.user);
       setValueToLocalStorage('user', response.login.user)
       setValueToLocalStorage('token', response.login.token)
       navigate("/")

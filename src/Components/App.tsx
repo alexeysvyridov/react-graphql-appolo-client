@@ -6,6 +6,10 @@ import { NewUser } from "./NewUser";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
 import { AuthProvider } from "../context";
+import { routeGuard } from "../HOC";
+
+const ProtectedRouteHome = routeGuard(Home);
+const ProtectedRouteNewUser = routeGuard(NewUser);
 
  const App = () => {
   const location = useLocation();
@@ -16,10 +20,8 @@ import { AuthProvider } from "../context";
       <div className="App">
         {!hideNavigation && <Navigation />}
         <Routes>
-          <Route path="/">
-              <Route index element={<Home />} />
-              <Route path="new-user" element={<NewUser />} />
-          </Route>
+          <Route path="/" element={<ProtectedRouteHome />} />
+          <Route path="/new-user" element={<ProtectedRouteNewUser />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

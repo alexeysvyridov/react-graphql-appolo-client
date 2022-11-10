@@ -1,5 +1,6 @@
 import { ReactNode, useContext, useState } from 'react'
 import { createContext } from 'react';
+import { getValueFromLocalStorage } from '../helpers';
 
 const defaultValue = {
   user: null,
@@ -13,17 +14,18 @@ type UserContext = {
   onSetUser: (user: User | null) => void;
   onSetToken: (token: string | null) => void;
 }
-export const createUserContext = createContext(defaultValue);
+export const AuthContext = createContext<UserContext | null>(defaultValue);
 
 export const useAuthContext = () => {
-  const context = useContext(createUserContext);
+  const context = useContext(AuthContext);
   if (!context) {
     throw new Error('no provider')
   }
   return context;
 }
+
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(getValueFromLocalStorage<User | null>('user') || null);
   const [token, setToken] = useState<null | string>(null);
 
   const handleSetUser = (user: User | null) => {
@@ -45,9 +47,9 @@ export const useAuth = () => {
 type AuthProviderProps = {
   children: ReactNode
 }
+
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 
-  const AuthContext = createContext<UserContext | null>(null)
   const { 
     user,
     token,
